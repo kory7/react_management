@@ -1,3 +1,7 @@
+## Management System
+
+이 프로젝트는 하나의 메니저먼트 시스템 샘플입니다.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
