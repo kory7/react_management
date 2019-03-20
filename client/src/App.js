@@ -20,33 +20,22 @@ const styles = theme => ({
   }
 });
 
-const customer = [
-  {
-    id: 1,
-    image: "https://placeimg.com/64/64/1",
-    name: "Luis Perez",
-    date: "940102",
-    gender: "masculino",
-    occupation: "student"
-  },
-  {
-    id: 2,
-    image: "https://placeimg.com/64/64/2",
-    name: "Jung Ik",
-    date: "990102",
-    gender: "masculino",
-    occupation: "student"
-  },
-  {
-    id: 3,
-    image: "https://placeimg.com/64/64/3",
-    name: "Hugo",
-    date: "930102",
-    gender: "masculino",
-    occupation: "student"
-  }
-];
 class App extends Component {
+  state = {
+    customer: ""
+  };
+
+  componentDidMount() {
+    this.callApi()
+      .then(res => this.setState({ customer: res }))
+      .catch(err => console.log(err));
+  }
+
+  callApi = async () => {
+    const response = await fetch("/api/customers");
+    const body = await response.json();
+    return body;
+  };
   render() {
     const { classes } = this.props;
     return (
@@ -63,19 +52,21 @@ class App extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {customer.map(c => {
-              return (
-                <Customer
-                  id={c.id}
-                  name={c.name}
-                  image={c.image}
-                  date={c.date}
-                  gender={c.gender}
-                  occupation={c.occupation}
-                  key={c.id}
-                />
-              );
-            })}
+            {this.state.customer
+              ? this.state.customer.map(c => {
+                  return (
+                    <Customer
+                      id={c.id}
+                      name={c.name}
+                      image={c.image}
+                      date={c.date}
+                      gender={c.gender}
+                      occupation={c.occupation}
+                      key={c.id}
+                    />
+                  );
+                })
+              : ""}
           </TableBody>
         </Table>
       </Paper>
